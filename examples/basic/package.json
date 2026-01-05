@@ -1,0 +1,8 @@
+{
+  "name": "basic-example",
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "nono": "workspace:*"
+  }
+}
