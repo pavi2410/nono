@@ -1,7 +1,6 @@
 import {
   Server,
   Route,
-  Prefix,
   GET,
   POST,
   Middleware,
@@ -45,13 +44,13 @@ const app = (
       </Route>
 
       {/* API routes with auth */}
-      <Prefix path="/api">
+      <Route path="/api">
         <Middleware use={auth}>
           <Route path="/users">
             <GET handler={() => Response.json({ users })} />
             <POST
               handler={async (req) => {
-                const body = await req.json() as { name: string };
+                const body = (await req.json()) as { name: string };
                 const newUser = { id: users.length + 1, name: body.name };
                 users.push(newUser);
                 return Response.json(newUser, { status: 201 });
@@ -59,7 +58,7 @@ const app = (
             />
           </Route>
         </Middleware>
-      </Prefix>
+      </Route>
     </Middleware>
   </Server>
 );

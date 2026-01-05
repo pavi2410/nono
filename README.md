@@ -11,7 +11,7 @@ bun install
 ## Quick Start
 
 ```tsx
-import { Server, Route, Prefix, GET, POST, Middleware, listen } from "nono";
+import { Server, Route, GET, POST, Middleware, listen } from "nono";
 
 const app = (
   <Server port={3000}>
@@ -19,7 +19,7 @@ const app = (
       <GET handler={() => Response.json({ message: "Hello, Nono!" })} />
     </Route>
 
-    <Prefix path="/api">
+    <Route path="/api">
       <Route path="/users">
         <GET handler={() => Response.json({ users: [] })} />
         <POST handler={async (req) => {
@@ -27,7 +27,7 @@ const app = (
           return Response.json(body, { status: 201 });
         }} />
       </Route>
-    </Prefix>
+    </Route>
   </Server>
 );
 
@@ -37,7 +37,7 @@ listen(app);
 ## Features
 
 - **JSX Routing** - Define routes declaratively with JSX components
-- **Nested Routes** - Use `<Prefix>` to group routes under a common path
+- **Nested Routes** - Nest `<Route>` components to group routes under a common path
 - **HTTP Methods** - `<GET>` and `<POST>` components for method-specific handlers
 - **Middleware** - `<Middleware>` component with proper chaining support
 - **Built for Bun** - Compiles to Bun's native route format
@@ -54,23 +54,19 @@ Root component that holds server configuration.
 ```
 
 ### `<Route>`
-Defines a route at a specific path.
+Defines a route at a specific path. Routes can be nested to create path prefixes.
 
 ```tsx
 <Route path="/users">
   <GET handler={getUsers} />
   <POST handler={createUser} />
 </Route>
-```
 
-### `<Prefix>`
-Groups routes under a common path prefix.
-
-```tsx
-<Prefix path="/api">
-  <Route path="/users">{/* ... */}</Route>
-  <Route path="/posts">{/* ... */}</Route>
-</Prefix>
+{/* Nested routes */}
+<Route path="/api">
+  <Route path="/users">{/* /api/users */}</Route>
+  <Route path="/posts">{/* /api/posts */}</Route>
+</Route>
 ```
 
 ### `<GET>` / `<POST>`

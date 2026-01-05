@@ -48,6 +48,10 @@ function compileNode(
       const path = props.path as string;
       const fullPath = context.pathPrefix + path;
       const methodHandlers: Record<string, Handler> = {};
+      const nestedContext: CompileContext = {
+        pathPrefix: fullPath,
+        middlewares: [...context.middlewares],
+      };
 
       for (const child of children) {
         if (child.type === "GET" || child.type === "POST") {
@@ -56,24 +60,13 @@ function compileNode(
             handler,
             context.middlewares
           );
+        } else if (child.type === "Route" || child.type === "Middleware") {
+          compileNode(child, nestedContext, routes);
         }
       }
 
       if (Object.keys(methodHandlers).length > 0) {
         routes[fullPath] = methodHandlers;
-      }
-      break;
-    }
-
-    case "Prefix": {
-      const path = props.path as string;
-      const newContext: CompileContext = {
-        pathPrefix: context.pathPrefix + path,
-        middlewares: [...context.middlewares],
-      };
-
-      for (const child of children) {
-        compileNode(child, newContext, routes);
       }
       break;
     }

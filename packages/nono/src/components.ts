@@ -16,11 +16,6 @@ export interface RouteProps {
   children?: NonoNode | NonoNode[];
 }
 
-export interface PrefixProps {
-  path: string;
-  children?: NonoNode | NonoNode[];
-}
-
 export interface MethodProps {
   handler: Handler;
 }
@@ -35,10 +30,6 @@ export function Server(_props: ServerProps): NonoNode {
 }
 
 export function Route(_props: RouteProps): NonoNode {
-  return null as unknown as NonoNode;
-}
-
-export function Prefix(_props: PrefixProps): NonoNode {
   return null as unknown as NonoNode;
 }
 

@@ -6,11 +6,10 @@ export type {
   MiddlewareFn,
   ServerProps,
   RouteProps,
-  PrefixProps,
   MethodProps,
   MiddlewareProps,
 } from "./components.ts";
-export { Server, Route, Prefix, GET, POST, Middleware } from "./components.ts";
+export { Server, Route, GET, POST, Middleware } from "./components.ts";
 
 export { compile } from "./compiler.ts";
 export { listen } from "./listen.ts";
